@@ -40,6 +40,20 @@ class FormattableDict:
 
 @attr.s(auto_attribs=True, frozen=True, order=False)
 class Problem:
+    """A problem found by a checker.
+
+    Args:
+    -----
+
+    name: The name of the problem. Usually 2-4 words, hyphenated.
+
+    text: The message text for display to the user. :func:`str.format` syntax is
+    supported. Usually one short sentence.
+
+    explanation: Prose description of the problem. Usually a few sentences.
+
+    """
+
     name: str
     text: FormattingString = attr.ib(converter=FormattingString)
     explanation: str
@@ -96,6 +110,7 @@ class CheckerGroup:
     id_prefix: str = "E"
 
     def problem(self, name: str, text: str, explanation: str):
+        """Define a reusable :class:`Problem`."""
         problem_id = ProblemID(self.id_prefix, short_hash(self.name), short_hash(name))
         problem = Problem(name, text, explanation, problem_id)
         # pylint: disable=unsupported-assignment-operation
@@ -107,6 +122,19 @@ class CheckerGroup:
         node_type: t.Type[astroid.node_classes.NodeNG],
         problems: t.Sequence[Problem],
     ):
+        """Check for pre-defined :class:`Problem`s.
+
+        Args:
+        -----
+
+        node_type: The checker will be invoked with each instance of the given node type
+        that pylint finds.
+
+        problems: The :class:`Problem`s that this checker might find. Useful for allowing
+        users to disable checks for specific problems.
+
+        """
+
         def wrapper(function):
             checker = make_checker(node_type, problems)(function)
             self.checkers.append(checker)
@@ -117,6 +145,19 @@ class CheckerGroup:
     def standalone_check(
         self, node_type: t.Type[astroid.node_classes.NodeNG], text: str
     ):
+        """Check for a :class:`Problem` generated on the fly from this function.
+
+        Args:
+        -----
+
+        node_type: The checker will be invoked with each instance of the given node type
+        that pylint finds.
+
+        text: The text of the message that will be displayed to the user.
+        :func:`str.format` syntax is supported.
+
+        """
+
         def wrapper(function):
             problem = self.problem(
                 name=function.__name__.replace("_", "-"),
