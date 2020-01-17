@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyglint"
-version = "0.1.1"
+version = "0.1.2"
 description = "Pylint checkers made easy."
 authors = ["metatooling <metatooling@cordaz.com>"]
 readme = "README.rst"

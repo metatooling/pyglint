@@ -195,4 +195,4 @@ def message(
     return Message(problem, node, data)
 
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
