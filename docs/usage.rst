@@ -15,11 +15,8 @@ A checker takes a node and yields :class:`Problem` objects.
    :members:
 
 
-There are two ways to write a check.
-
-   #. Define a :class:`Problem` beforehand with :meth:`CheckerGroup.problem()` and reference it with :meth:`CheckerGroup.check_for_problems()`.
-
-   #. Define a :class:`Problem` on the fly for a single function with :meth:`CheckerGroup.standalone_check()`.
+Define a :class:`Problem` beforehand with :meth:`CheckerGroup.problem()` and reference it
+with :meth:`CheckerGroup.check()`.
 
 .. autoclass:: CheckerGroup
    :members:

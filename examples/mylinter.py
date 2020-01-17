@@ -3,37 +3,34 @@ import astroid
 import pyglint
 
 
-chk = pyglint.CheckerGroup("mylinter")
+group = pyglint.CheckerGroup("mylinter")
 
 
-BAD_NAME = chk.problem(
+BAD_NAME = group.problem(
     name="bad-name",
     text="The name '{name}' is against the guidelines.",
     explanation="It's a good idea to have a useful and descriptive name. For example, Counter instead of ctr.",
 )
 
+IMPORT_FROM = group.problem(
+    "import-from",
+    text="`from ... import` is not allowed.",
+    explanation="Namespaces are one honkin' great idea.",
+)
 
-@chk.check_for_problems(astroid.node_classes.Name, problems=[BAD_NAME])
+
+@group.check(astroid.node_classes.Name)
 def find_short_names(checker, node):
     if len(node.name) < 4:
         yield pyglint.message(problem=BAD_NAME, node=node, name=node.name)
 
 
-@chk.check_for_problems(astroid.node_classes.Name, problems=[BAD_NAME])
-def find_long_names(checker, node):
-    if len(node.name) > 30:
-        yield pyglint.message(problem=BAD_NAME, node=node, name=node.name)
-
-
-@chk.standalone_check(
-    astroid.node_classes.ImportFrom, text="`from ... import` is not allowed."
-)
-def import_from(checker, node):
-    """Namespaces are one honkin' great idea."""
-    yield pyglint.message(node=node)
+@group.check(astroid.node_classes.ImportFrom)
+def find_import_from(checker, node):
+    yield pyglint.message(problem=IMPORT_FROM, node=node)
 
 
 def register(linter):
     """Register checkers."""
-    checker = pyglint.make_pylint_checker(chk)
+    checker = pyglint.make_pylint_checker(group)
     linter.register_checker(checker(linter))

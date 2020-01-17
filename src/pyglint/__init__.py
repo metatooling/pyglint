@@ -85,11 +85,9 @@ class Checker:
     problems: t.Iterable[Problem]
 
 
-def make_checker(
-    node_type: t.Type[astroid.node_classes.NodeNG], problems: t.Sequence[Problem]
-) -> t.Callable:
+def make_checker(node_type: t.Type[astroid.node_classes.NodeNG],) -> t.Callable:
     def wrapper(function: CheckerFunction) -> Checker:
-        return Checker(node_type, function, tuple(problems))
+        return Checker(node_type, function, ())
 
     return wrapper
 
@@ -118,11 +116,7 @@ class CheckerGroup:
         self.problems[problem.name] = problem
         return problem
 
-    def check_for_problems(
-        self,
-        node_type: t.Type[astroid.node_classes.NodeNG],
-        problems: t.Sequence[Problem],
-    ):
+    def check(self, node_type: t.Type[astroid.node_classes.NodeNG]):
         """Check for one or more pre-defined :class:`Problem` s.
 
         Args:
@@ -130,61 +124,18 @@ class CheckerGroup:
             node_type: The checker will be invoked with each instance of the given node
                 type that pylint finds.
 
-            problems: The :class:`Problem`s that this checker might find. Useful for
-                allowing users to disable checks for specific problems.
 
         """
 
         def wrapper(function):
-            checker = make_checker(node_type, problems)(function)
+            checker = make_checker(node_type)(function)
             self.checkers.append(checker)
             return checker.function
 
         return wrapper
-
-    def standalone_check(
-        self, node_type: t.Type[astroid.node_classes.NodeNG], text: str
-    ):
-        """Check for a :class:`Problem` generated on the fly from this function.
-
-        Args:
-
-            node_type: The checker will be invoked with each instance of the given node
-                object type that pylint finds.
-
-            text: The text of the message that will be displayed to the user.
-                :func:`str.format` syntax is supported.
-
-        """
-
-        def wrapper(function):
-            problem = self.problem(
-                name=function.__name__.replace("_", "-"),
-                text=text,
-                explanation=function.__doc__ or "",
-            )
-
-            checker = make_checker(node_type, [problem])(
-                _add_problem_to_emitted_messages(function, problem)
-            )
-            self.checkers.append(checker)
-            return checker.function
-
-        return wrapper
-
-
-def _add_problem_to_emitted_messages(function, problem):
-    def wrap(*args, **kwargs):
-        for msg in function(*args, **kwargs):
-            yield attr.evolve(msg, problem=problem)
-
-    return wrap
 
 
 def _make_multicaller(checkers: t.Iterable[Checker]):
-    @pylint.checkers.utils.check_messages(
-        *[problem.name for checker_ in checkers for problem in checker_.problems]
-    )
     def _call_each(
         self: pylint.checkers.BaseChecker, node: astroid.node_classes.NodeNG
     ) -> None:
