@@ -52,9 +52,7 @@ Overview
 
 .. end-badges
 
-Succinct Pylint checkers.
-
-* Free software: MIT License
+Makes it easy to write custom Pylint checkers.
 
 Installation
 ============
