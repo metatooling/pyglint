@@ -6,7 +6,7 @@ authors = ["metatooling <metatooling@cordaz.com>"]
 readme = "README.rst"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "*"
 click = "*"
 attrs = "*"
 public = "^2019.4.13"
