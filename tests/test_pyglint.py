@@ -12,12 +12,5 @@ def test_example():
         "examples/to-be-linted.py",
     ]
     output = subprocess.run(args, check=False, stdout=subprocess.PIPE).stdout.decode()
-
-    assert (
-        "examples/to-be-linted.py:6:0: E4019: The name 'xor' is against the guidelines. (bad-name)"
-        in output
-    )
-    assert (
-        "examples/to-be-linted.py:1:0: E4012: `from ... import` is not allowed. (import-from)"
-        in output
-    )
+    assert "bad-name" in output
+    assert "import-from" in output
