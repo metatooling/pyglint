@@ -11,7 +11,7 @@ def test_example():
         "examples.mylinter",
         "examples/to-be-linted.py",
     ]
-    output = subprocess.run(args, check=False, capture_output=True).stdout.decode()
+    output = subprocess.run(args, check=False, stdout=subprocess.PIPE).stdout.decode()
 
     assert (
         "examples/to-be-linted.py:6:0: E4019: The name 'xor' is against the guidelines. (bad-name)"
