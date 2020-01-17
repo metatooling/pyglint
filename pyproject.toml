@@ -1,9 +1,10 @@
 [tool.poetry]
 name = "pyglint"
-version = "0.1.0" # PACKAGE_VERSION  (This comment helps bumpversion find the right line.)
-description = ""
+version = "0.1.1"
+description = "Pylint checkers made easy."
 authors = ["metatooling <metatooling@cordaz.com>"]
 readme = "README.rst"
+
 
 [tool.poetry.dependencies]
 python = "^3.5"
@@ -33,9 +34,6 @@ docs = [
 
 ]
 
-
-[tool.poetry.scripts]
-pyglint = "pyglint.cli:cli"
 
 
 [tool.towncrier]
