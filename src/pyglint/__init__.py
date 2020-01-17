@@ -196,7 +196,7 @@ def _make_multicaller(checkers: t.Iterable[Checker]):
         for checker in checkers:
             for msg in checker.function(self, node):
                 self.add_message(
-                    msg.problem.name, node=node, args=FormattableDict(message.data)
+                    msg.problem.name, node=node, args=FormattableDict(msg.data)
                 )
 
     return _call_each
