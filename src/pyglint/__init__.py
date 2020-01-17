@@ -193,3 +193,6 @@ def message(
     node: astroid.node_classes.NodeNG, problem: Problem = None, **data
 ) -> Message:
     return Message(problem, node, data)
+
+
+__version__ = "0.1.1"
