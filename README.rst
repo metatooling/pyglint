@@ -33,9 +33,9 @@ Overview
     :alt: PyPI Package latest release
     :target: https://pypi.org/pypi/pyglint
 
-.. |commits-since| image:: https://img.shields.io/github/commits-since/metatooling/pyglint/v0.1.2.svg
+.. |commits-since| image:: https://img.shields.io/github/commits-since/metatooling/pyglint/v0.1.3.svg
     :alt: Commits since latest release
-    :target: https://github.com/metatooling/pyglint/compare/v0.1.2...master
+    :target: https://github.com/metatooling/pyglint/compare/v0.1.3...master
 
 .. |wheel| image:: https://img.shields.io/pypi/wheel/pyglint.svg
     :alt: PyPI Wheel
