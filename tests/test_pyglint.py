@@ -1,3 +1,6 @@
+"""Tests for pyglint."""
+
+
 import subprocess
 import sys
 

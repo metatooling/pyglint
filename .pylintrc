@@ -141,7 +141,13 @@ disable=print-statement,
         exception-escape,
         comprehension-escape,
 	bad-continuation, # Bug in pylint. https://github.com/PyCQA/pylint/issues/741
-        len-as-condition
+        len-as-condition,
+
+        missing-class-docstring,
+        too-few-public-methods,
+        too-many-ancestors,
+        missing-function-docstring,
+
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

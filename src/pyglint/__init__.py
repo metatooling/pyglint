@@ -148,14 +148,14 @@ def _make_multicaller(checkers: t.Iterable[Checker]):
     def _call_each(
         self: pylint.checkers.BaseChecker, node: astroid.node_classes.NodeNG
     ) -> None:
+        # pylint: disable=fixme
         # XXX Ideally multicaller wouldn't be necessary, each checker could separately
         # register its own message types.
 
         for checker in checkers:
-
-            for message in checker.function(self, node):
+            for msg in checker.function(self, node):
                 self.add_message(
-                    message.problem.name, node=node, args=FormattableDict(message.data)
+                    msg.problem.name, node=node, args=FormattableDict(message.data)
                 )
 
     return _call_each
@@ -169,6 +169,7 @@ def _make_visitors(group):
 
     visitors = {}
     for node_type, checkers in node_type_checkers.items():
+        # pylint: disable=fixme
         # XXX This is a hack. Visiting should use a better dispatch system than just type
         # name.
         visitor_method_name = "visit_" + node_type.__name__.split(".")[0].lower()
