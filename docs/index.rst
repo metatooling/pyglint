@@ -1,3 +1,7 @@
+.. include:: readme.rst
+
+
+
 ========
 Contents
 ========

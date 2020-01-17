@@ -43,14 +43,13 @@ class Problem:
     """A problem found by a checker.
 
     Args:
-    -----
 
-    name: The name of the problem. Usually 2-4 words, hyphenated.
+        name: The name of the problem. Usually 2-4 words, hyphenated.
 
-    text: The message text for display to the user. :func:`str.format` syntax is
-    supported. Usually one short sentence.
+        text: The message text for display to the user. :func:`str.format` syntax is
+        supported. Usually one short sentence.
 
-    explanation: Prose description of the problem. Usually a few sentences.
+        explanation: Prose description of the problem. Usually a few sentences.
 
     """
 
@@ -103,6 +102,8 @@ def short_hash(name: str, length: int = 2) -> int:
 @public
 @attr.s(auto_attribs=True, order=False)
 class CheckerGroup:
+    """The main object for defining linters with Pyglint."""
+
     name: str
     checkers: t.List[Checker] = attr.ib(factory=list)
     problems: t.Dict[str, Problem] = attr.ib(factory=dict)
@@ -122,16 +123,15 @@ class CheckerGroup:
         node_type: t.Type[astroid.node_classes.NodeNG],
         problems: t.Sequence[Problem],
     ):
-        """Check for pre-defined :class:`Problem`s.
+        """Check for one or more pre-defined :class:`Problem` s.
 
         Args:
-        -----
 
-        node_type: The checker will be invoked with each instance of the given node type
-        that pylint finds.
+            node_type: The checker will be invoked with each instance of the given node
+                type that pylint finds.
 
-        problems: The :class:`Problem`s that this checker might find. Useful for allowing
-        users to disable checks for specific problems.
+            problems: The :class:`Problem`s that this checker might find. Useful for
+                allowing users to disable checks for specific problems.
 
         """
 
@@ -148,13 +148,12 @@ class CheckerGroup:
         """Check for a :class:`Problem` generated on the fly from this function.
 
         Args:
-        -----
 
-        node_type: The checker will be invoked with each instance of the given node type
-        that pylint finds.
+            node_type: The checker will be invoked with each instance of the given node
+                object type that pylint finds.
 
-        text: The text of the message that will be displayed to the user.
-        :func:`str.format` syntax is supported.
+            text: The text of the message that will be displayed to the user.
+                :func:`str.format` syntax is supported.
 
         """
 
