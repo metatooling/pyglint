@@ -9,6 +9,8 @@ readme = "README.rst"
 python = "^3.7"
 click = "*"
 attrs = "*"
+public = "^2019.4.13"
+pylint = "^2.4.4"
 
 
 [tool.poetry.dev-dependencies]
@@ -17,7 +19,6 @@ coverage = "^4.5"
 pytest = "^5.0"
 hypothesis = "^4.32"
 requests = "^2.22"
-pylint = "^2.3"
 aiohttp = "^3.5"
 twine = "^1.13"
 vulture = "^1.0"
@@ -46,12 +47,6 @@ docs = [
 
 [tool.poetry.scripts]
 pyglint = "pyglint.cli:cli"
-
-
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
-
 
 
 [tool.towncrier]
@@ -101,3 +96,6 @@ exclude = '''
   | dist
 )/
 '''
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

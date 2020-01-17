@@ -4,4 +4,6 @@ Usage
 
 To use pyglint in a project::
 
-	import pyglint
+
+.. literalinclude:: ../examples/mylinter.py
+   :language: python
