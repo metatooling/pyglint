@@ -66,7 +66,10 @@ ProblemT = t.TypeVar("ProblemT", bound=Problem)
 class Message(t.Generic[ProblemT]):
     problem: ProblemT
     node: astroid.node_classes.NodeNG
-    data: t.Dict[str, t.Any]
+    line: t.Optional[int] = None
+    col_offset: t.Optional[int] = None
+    confidence: pylint.interfaces.Confidence = pylint.interfaces.UNDEFINED
+    data: t.Dict[str, t.Any] = attr.ib(factory=dict)
 
     def to_pylint(self):
         return str(self.problem.id) + " " + self.node
@@ -146,7 +149,12 @@ def _make_multicaller(checkers: t.Iterable[Checker]):
         for checker in checkers:
             for msg in checker.function(self, node):
                 self.add_message(
-                    msg.problem.name, node=node, args=FormattableDict(msg.data)
+                    msg.problem.name,
+                    node=node,
+                    line=msg.line,
+                    col_offset=msg.col_offset,
+                    confidence=msg.confidence,
+                    args=FormattableDict(msg.data),
                 )
 
     return _call_each
@@ -190,9 +198,21 @@ def make_pylint_checker(group: CheckerGroup) -> pylint.checkers.BaseChecker:
 
 @public
 def message(
-    node: astroid.node_classes.NodeNG, problem: Problem = None, **data
+    node: astroid.node_classes.NodeNG,
+    problem: Problem = None,
+    line: t.Optional[int] = None,
+    col_offset: t.Optional[int] = None,
+    confidence: pylint.interfaces.Confidence = pylint.interfaces.UNDEFINED,
+    **data,
 ) -> Message:
-    return Message(problem, node, data)
+    return Message(
+        problem,
+        node,
+        line=line,
+        col_offset=col_offset,
+        confidence=confidence,
+        data=data,
+    )
 
 
 __version__ = "0.1.2"
